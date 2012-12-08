@@ -15,6 +15,7 @@
 				4FC236AD167143EF006F50C5 /* ShellScript */,
 			);
 			dependencies = (
+				4F147AF51673D36100625E40 /* PBXTargetDependency */,
 			);
 			name = apnrs;
 			productName = apnrs;
@@ -24,25 +25,24 @@
 /* Begin PBXBuildFile section */
 		4F147AE916739F7700625E40 /* _APNRSStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F147AE816739F7700625E40 /* _APNRSStorage.m */; };
 		4F147AEC1673A08800625E40 /* _APNRSConnectionsQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F147AEB1673A08800625E40 /* _APNRSConnectionsQueue.m */; };
+		4F147AF71673D39F00625E40 /* apnrs.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC23692167142B6006F50C5 /* apnrs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F147AF81673D3A100625E40 /* APNRSManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC2369B167142CB006F50C5 /* APNRSManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F147AF91673D3C000625E40 /* privateDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = DA3625011672686500213967 /* privateDefinitions.h */; };
+		4F147AFA1673D3C200625E40 /* _APNRSConnectionsQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F147AEA1673A08800625E40 /* _APNRSConnectionsQueue.h */; };
+		4F147AFB1673D3C400625E40 /* _APNRSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F147AE716739F7700625E40 /* _APNRSStorage.h */; };
 		4F830DAC1671493C00E3A038 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC2368D167142B6006F50C5 /* Foundation.framework */; };
-		4F830DB81671494C00E3A038 /* APNRSManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4FC2369B167142CB006F50C5 /* APNRSManager.h */; };
 		4F830DB91671495800E3A038 /* APNRSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC2369C167142CB006F50C5 /* APNRSManager.m */; };
-		4F830DBA1671496000E3A038 /* apnrs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4FC23692167142B6006F50C5 /* apnrs.h */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		4F830DA91671493C00E3A038 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				4F830DBA1671496000E3A038 /* apnrs.h in CopyFiles */,
-				4F830DB81671494C00E3A038 /* APNRSManager.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+/* Begin PBXContainerItemProxy section */
+		4F147AF41673D36100625E40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FC23681167142B6006F50C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F830DAA1671493C00E3A038;
+			remoteInfo = "apnrs-ios";
 		};
-/* End PBXCopyFilesBuildPhase section */
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4F147AE716739F7700625E40 /* _APNRSStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _APNRSStorage.h; sourceTree = "<group>"; };
@@ -133,6 +133,21 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		4F147AF61673D39700625E40 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F147AF71673D39F00625E40 /* apnrs.h in Headers */,
+				4F147AF81673D3A100625E40 /* APNRSManager.h in Headers */,
+				4F147AF91673D3C000625E40 /* privateDefinitions.h in Headers */,
+				4F147AFA1673D3C200625E40 /* _APNRSConnectionsQueue.h in Headers */,
+				4F147AFB1673D3C400625E40 /* _APNRSStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		4F830DAA1671493C00E3A038 /* apnrs-ios */ = {
 			isa = PBXNativeTarget;
@@ -140,7 +155,7 @@
 			buildPhases = (
 				4F830DA71671493C00E3A038 /* Sources */,
 				4F830DA81671493C00E3A038 /* Frameworks */,
-				4F830DA91671493C00E3A038 /* CopyFiles */,
+				4F147AF61673D39700625E40 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -203,7 +218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\ncd ${PROJECT_DIR}/${PROJECT}\n./build_ios.sh LestradeFull\ncd ${PROJECT_DIR}/${PROJECT}\n./build_ios.sh LestradeMinimal";
+			shellScript = "#!/bin/bash\ncd ${PROJECT_DIR}/${PROJECT}\n./build_ios.sh apnrs-ios";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -220,6 +235,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4F147AF51673D36100625E40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F830DAA1671493C00E3A038 /* apnrs-ios */;
+			targetProxy = 4F147AF41673D36100625E40 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		4F830DB41671493C00E3A038 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -228,6 +251,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "apnrs/apnrs-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -242,6 +266,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "apnrs/apnrs-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -300,6 +325,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -309,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
