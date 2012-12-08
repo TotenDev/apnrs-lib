@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'apnrs' target in the 'apnrs' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+	#import	<UIKit/UIApplication.h>
+#endif
