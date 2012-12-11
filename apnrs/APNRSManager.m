@@ -43,6 +43,7 @@ BOOL pushQuietTimeIsEqual(pushQuietTime quietTime,pushQuietTime quietTime2) {
 
 //Main Implementation
 @implementation APNRSManager
+@synthesize APNRSLibraryRequestEntrypoint, APNRSLibraryRequestUsername, APNRSLibraryRequestPassword, APNRSLibraryErrorAppleRegisterNotifications, APNRSLibraryNotificationTypes ;
 #pragma mark - Initialization
 static APNRSManager *_sharedPushNotifications = nil ;
 //shared push notifications
@@ -56,6 +57,9 @@ static APNRSManager *_sharedPushNotifications = nil ;
     //Ivars
 		_apnrsStorage = [_APNRSStorage new];
 		_apnrsQueue = [_APNRSConnectionsQueue new];
+		//defaults
+		APNRSLibraryErrorAppleRegisterNotifications = @"Could not register your device to recieve push notifications, try again later.";
+		APNRSLibraryNotificationTypes = UIRemoteNotificationTypeAlert;
     //Register app for notifications
     [[UIApplication sharedApplication]registerForRemoteNotificationTypes:APNRSLibraryNotificationTypes];
 	}
@@ -84,6 +88,15 @@ static APNRSManager *_sharedPushNotifications = nil ;
 }
 #pragma mark - Fowarders
 - (void)startRemoteNotificationServicesWithLaunchOptions:(NSDictionary *)dictionary {
+	//Checks
+	if (!APNRSLibraryRequestEntrypoint || [APNRSLibraryRequestEntrypoint length] <= 0) {
+		[[NSException exceptionWithName:@"APNRSLibraryRequestEntrypoint isn't set." reason:@"APNRSLibraryRequestEntrypoint isn't set." userInfo:nil] raise];
+	}else if (!APNRSLibraryRequestUsername || [APNRSLibraryRequestUsername length] <= 0) {
+		[[NSException exceptionWithName:@"APNRSLibraryRequestUsername isn't set." reason:@"APNRSLibraryRequestUsername isn't set." userInfo:nil] raise];
+	}else if (!APNRSLibraryRequestPassword || [APNRSLibraryRequestPassword length] <= 0) {
+		[[NSException exceptionWithName:@"APNRSLibraryRequestPassword isn't set." reason:@"APNRSLibraryRequestPassword isn't set." userInfo:nil] raise];
+	}
+	
 	//Check if contains push key dict
 	if ([dictionary objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
 		//Get payload
@@ -103,7 +116,7 @@ static APNRSManager *_sharedPushNotifications = nil ;
 	//Notifications are disabled for this application. Not registering with Urban Airship
 	if ([application enabledRemoteNotificationTypes] == 0) { return; }
   //Show alert ?
-  [[[UIAlertView alloc] initWithTitle:@"Error" message:APNRSLibraryErrorAppleRegisterNotitifcations delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+  [[[UIAlertView alloc] initWithTitle:@"Error" message:APNRSLibraryErrorAppleRegisterNotifications delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 #endif
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -112,7 +125,7 @@ static APNRSManager *_sharedPushNotifications = nil ;
 						 stringByReplacingOccurrencesOfString:@">" withString:@""] 
 						stringByReplacingOccurrencesOfString: @" " withString: @""];
 	//Notifications are disabled for this application. Not registering with Urban Airship
-	if ([application enabledRemoteNotificationTypes] == 0 ) { return; } 
+	if ([application enabledRemoteNotificationTypes] == 0 ) { return; }
 	//Check device token
 	if (_deviceToken && [_deviceToken length] > 0) {
 		_apnrsStorage.deviceToken = _deviceToken;

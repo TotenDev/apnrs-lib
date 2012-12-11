@@ -59,12 +59,10 @@
 +(BOOL)__serverRegisterRemoteNotificationsWithToken:(NSString*)token withTags:(NSArray*)tags withQuietTime:(pushQuietTime)quietTime {
   //Check all values
   if (!token || [token length] <= 0) { return NO; }
-  else if (!tags || [tags count] <= 0) { return NO; }
-  else if (!pushQuietTimeIsZero(quietTime)) { return NO; }
   //Autorelease
   @autoreleasepool {
     //Format URL
-    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",(APNRSLibraryRequestUseSSL?@"https":@"http"),APNRSLibraryRequestEntrypoint, APNRSLibraryRequestRegisterRoute];
+    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",(APNRSLibraryRequestUseSSL?@"https":@"http"),[[APNRSManager sharedPushNotifications] APNRSLibraryRequestEntrypoint], APNRSLibraryRequestRegisterRoute];
     NSURL *url = [NSURL URLWithString:urlString];
     //Format request
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -84,14 +82,16 @@
 	{
 		[request setTimeoutInterval:30];
 		[request setCachePolicy:NSURLCacheStorageNotAllowed];
-		[request setHTTPMethod:@"PUT"];
+		[request setHTTPMethod:@"POST"];
 		
 		//FUCKING AUTHENTICATION
 		[request setValue:
 		 [NSString stringWithFormat:@"Basic %@",
 		  [self encodeStringToBase64:
-		   [NSString stringWithFormat:@"%@:%@",APNRSLibraryRequestUsername,APNRSLibraryRequestPassword]]]
-	 forHTTPHeaderField:@"Authorization"];
+		   [NSString stringWithFormat:@"%@:%@",
+				[[APNRSManager sharedPushNotifications] APNRSLibraryRequestUsername],
+				[[APNRSManager sharedPushNotifications] APNRSLibraryRequestPassword]]]]
+			forHTTPHeaderField:@"Authorization"];
 	}
   
 	//Insert params
@@ -110,7 +110,7 @@
     //Tags
     //{"tags": ["tag1", "tag2"]}
     NSMutableString *tagsValue = nil;
-    if (tagsValue) {
+    if (tags) {
       tagsValue = [NSMutableString stringWithFormat:@"\"%@\":[",APNRSLibraryRequestTagKey];
       for (NSString *tag in tags) {
         ([tag isEqual:[tags objectAtIndex:0]] ? [tagsValue appendFormat:@"\"%@\"",tag] : [tagsValue appendFormat:@",\"%@\"",tag]);
