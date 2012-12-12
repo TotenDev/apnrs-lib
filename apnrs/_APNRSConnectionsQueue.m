@@ -62,7 +62,7 @@
   //Autorelease
   @autoreleasepool {
     //Format URL
-    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",(APNRSLibraryRequestUseSSL?@"https":@"http"),[[APNRSManager sharedPushNotifications] APNRSLibraryRequestEntrypoint], APNRSLibraryRequestRegisterRoute];
+    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",([[APNRSManager sharedPushNotifications] APNRSLibraryRequestUseSSL]?@"https":@"http"),[[APNRSManager sharedPushNotifications] APNRSLibraryRequestEntrypoint], APNRSLibraryRequestRegisterRoute];
     NSURL *url = [NSURL URLWithString:urlString];
     //Format request
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] initWithURL:url];

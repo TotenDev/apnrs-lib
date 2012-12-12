@@ -17,7 +17,6 @@
 #define APNRSLibraryStorageFile                 @"soitacifiton_hsup.kab.nosync" //storage files
 //internal request
 #define APNRSLibraryRequestRegisterRoute @"register"
-#define APNRSLibraryRequestUseSSL 1
 //register body keys
 //https://github.com/TotenDev/apnrs-server/blob/master/docs/rest.md#register-device-post
 #define APNRSLibraryRequestSilentTimeKey @"silentTime"

@@ -19,7 +19,7 @@
 @property (nonatomic,strong) NSString *APNRSLibraryRequestPassword ;
 @property (nonatomic,strong) NSString *APNRSLibraryErrorAppleRegisterNotifications ; //@"Could not register your device to recieve push notifications, try again later.";
 @property (nonatomic) UIRemoteNotificationType APNRSLibraryNotificationTypes ; // (UIRemoteNotificationTypeAlert);
-
+@property (nonatomic) BOOL APNRSLibraryRequestUseSSL;
 #pragma mark - Fowarders
 //Start Remote noticiation app services (MUST BE CALLED IN APP INITIALIZATION)
 - (void)startRemoteNotificationServicesWithLaunchOptions:(NSDictionary *)dictionary ;

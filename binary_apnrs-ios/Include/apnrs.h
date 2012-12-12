@@ -5,7 +5,7 @@
 //  Created by Gabriel Pacheco on 12/6/12.
 //  Copyright (c) 2012 TotenDev. All rights reserved.
 //
-#define APNRSLibraryBuildVersion @"0.0014"
+#define APNRSLibraryBuildVersion @"0.0015"
 
 //Push time range
 struct pushQuietTime {

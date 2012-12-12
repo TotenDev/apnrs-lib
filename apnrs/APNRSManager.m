@@ -43,7 +43,7 @@ BOOL pushQuietTimeIsEqual(pushQuietTime quietTime,pushQuietTime quietTime2) {
 
 //Main Implementation
 @implementation APNRSManager
-@synthesize APNRSLibraryRequestEntrypoint, APNRSLibraryRequestUsername, APNRSLibraryRequestPassword, APNRSLibraryErrorAppleRegisterNotifications, APNRSLibraryNotificationTypes ;
+@synthesize APNRSLibraryRequestEntrypoint, APNRSLibraryRequestUsername, APNRSLibraryRequestPassword, APNRSLibraryErrorAppleRegisterNotifications, APNRSLibraryNotificationTypes, APNRSLibraryRequestUseSSL;
 #pragma mark - Initialization
 static APNRSManager *_sharedPushNotifications = nil ;
 //shared push notifications
@@ -60,6 +60,7 @@ static APNRSManager *_sharedPushNotifications = nil ;
 		//defaults
 		APNRSLibraryErrorAppleRegisterNotifications = @"Could not register your device to recieve push notifications, try again later.";
 		APNRSLibraryNotificationTypes = UIRemoteNotificationTypeAlert;
+    APNRSLibraryRequestUseSSL = NO ;
     //Register app for notifications
     [[UIApplication sharedApplication]registerForRemoteNotificationTypes:APNRSLibraryNotificationTypes];
 	}
