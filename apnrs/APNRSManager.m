@@ -110,7 +110,7 @@ static APNRSManager *_sharedPushNotifications = nil ;
 	}
 }
 - (void)application:(UIApplication *)_app didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  [self __application:_app didReceiveRemoteNotification:userInfo isLaunch:YES];
+  [self __application:_app didReceiveRemoteNotification:userInfo isLaunch:(_app.applicationState != UIApplicationStateActive)];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 #if !TARGET_IPHONE_SIMULATOR
@@ -136,6 +136,7 @@ static APNRSManager *_sharedPushNotifications = nil ;
 #pragma mark - Private Fowarder
 //Did recieve notification
 - (void)__application:(UIApplication *)_app didReceiveRemoteNotification:(NSDictionary *)userInfo isLaunch:(BOOL)launch  {
-  
+	[[NSNotificationCenter defaultCenter] postNotificationName:
+	 (launch ? APNRSLibraryReceivedNotificationClosed : APNRSLibraryReceivedNotificationOpened) object:userInfo];
 }
 @end

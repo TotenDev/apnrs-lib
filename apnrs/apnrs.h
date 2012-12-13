@@ -5,8 +5,9 @@
 //  Created by Gabriel Pacheco on 12/6/12.
 //  Copyright (c) 2012 TotenDev. All rights reserved.
 //
-#define APNRSLibraryBuildVersion @"0.0015"
-
+#define APNRSLibraryBuildVersion @"0.0018"
+#define APNRSLibraryReceivedNotificationOpened @"APNRSLibraryReceivedNotificationOpened" //application is opened
+#define APNRSLibraryReceivedNotificationClosed @"APNRSLibraryReceivedNotificationClosed" //application is closed
 //Push time range
 struct pushQuietTime {
 	int fromHour;
