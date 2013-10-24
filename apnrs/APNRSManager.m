@@ -43,7 +43,10 @@ BOOL pushQuietTimeIsEqual(pushQuietTime quietTime,pushQuietTime quietTime2) {
 
 //Main Implementation
 @implementation APNRSManager
-@synthesize APNRSLibraryRequestEntrypoint, APNRSLibraryRequestUsername, APNRSLibraryRequestPassword, APNRSLibraryErrorAppleRegisterNotifications, APNRSLibraryNotificationTypes, APNRSLibraryRequestUseSSL;
+@synthesize server_entrypoint, server_password, server_username, errorInRegisterNotificationsString, notificationTypes, shouldUseSSL;
++ (void)resetStorage {
+  [[NSFileManager defaultManager] removeItemAtPath:APNRSLibraryStorageFile error:nil];
+}
 #pragma mark - Initialization
 static APNRSManager *_sharedPushNotifications = nil ;
 //shared push notifications
@@ -58,11 +61,11 @@ static APNRSManager *_sharedPushNotifications = nil ;
 		_apnrsStorage = [_APNRSStorage new];
 		_apnrsQueue = [_APNRSConnectionsQueue new];
 		//defaults
-		APNRSLibraryErrorAppleRegisterNotifications = @"Could not register your device to recieve push notifications, try again later.";
-		APNRSLibraryNotificationTypes = UIRemoteNotificationTypeAlert;
-    APNRSLibraryRequestUseSSL = NO ;
+		errorInRegisterNotificationsString = @"Could not register your device to recieve push notifications, try again later.";
+		notificationTypes = UIRemoteNotificationTypeAlert;
+    shouldUseSSL = NO ;
     //Register app for notifications
-    [[UIApplication sharedApplication]registerForRemoteNotificationTypes:APNRSLibraryNotificationTypes];
+    [[UIApplication sharedApplication]registerForRemoteNotificationTypes:notificationTypes];
 	}
 	return self ;
 }
@@ -90,11 +93,11 @@ static APNRSManager *_sharedPushNotifications = nil ;
 #pragma mark - Fowarders
 - (void)startRemoteNotificationServicesWithLaunchOptions:(NSDictionary *)dictionary {
 	//Checks
-	if (!APNRSLibraryRequestEntrypoint || [APNRSLibraryRequestEntrypoint length] <= 0) {
+	if (!server_entrypoint || [server_entrypoint length] <= 0) {
 		[[NSException exceptionWithName:@"APNRSLibraryRequestEntrypoint isn't set." reason:@"APNRSLibraryRequestEntrypoint isn't set." userInfo:nil] raise];
-	}else if (!APNRSLibraryRequestUsername || [APNRSLibraryRequestUsername length] <= 0) {
+	}else if (!server_username || [server_username length] <= 0) {
 		[[NSException exceptionWithName:@"APNRSLibraryRequestUsername isn't set." reason:@"APNRSLibraryRequestUsername isn't set." userInfo:nil] raise];
-	}else if (!APNRSLibraryRequestPassword || [APNRSLibraryRequestPassword length] <= 0) {
+	}else if (!server_password || [server_password length] <= 0) {
 		[[NSException exceptionWithName:@"APNRSLibraryRequestPassword isn't set." reason:@"APNRSLibraryRequestPassword isn't set." userInfo:nil] raise];
 	}
 	
@@ -117,7 +120,12 @@ static APNRSManager *_sharedPushNotifications = nil ;
 	//Notifications are disabled for this application. Not registering with Urban Airship
 	if ([application enabledRemoteNotificationTypes] == 0) { return; }
   //Show alert ?
-  [[[UIAlertView alloc] initWithTitle:@"Error" message:APNRSLibraryErrorAppleRegisterNotifications delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+  if (errorInRegisterNotificationsString && [errorInRegisterNotificationsString length] > 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Error" message:errorInRegisterNotificationsString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    if (DEBUG) { NSLog(@"Error in push notification %@",[error description]); }
+  }else {
+    NSLog(@"Not showing error alert because the ivar 'errorInRegisterNotificationsString' is invalid (error is :%@)",[error description]);
+  }
 #endif
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

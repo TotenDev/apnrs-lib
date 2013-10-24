@@ -62,7 +62,7 @@
   //Autorelease
   @autoreleasepool {
     //Format URL
-    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",([[APNRSManager sharedPushNotifications] APNRSLibraryRequestUseSSL]?@"https":@"http"),[[APNRSManager sharedPushNotifications] APNRSLibraryRequestEntrypoint], APNRSLibraryRequestRegisterRoute];
+    NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@/",([[APNRSManager sharedPushNotifications] shouldUseSSL] ? @"https" : @"http"),[[APNRSManager sharedPushNotifications] server_entrypoint], APNRSLibraryRequestRegisterRoute];
     NSURL *url = [NSURL URLWithString:urlString];
     //Format request
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -89,8 +89,8 @@
 		 [NSString stringWithFormat:@"Basic %@",
 		  [self encodeStringToBase64:
 		   [NSString stringWithFormat:@"%@:%@",
-				[[APNRSManager sharedPushNotifications] APNRSLibraryRequestUsername],
-				[[APNRSManager sharedPushNotifications] APNRSLibraryRequestPassword]]]]
+				[[APNRSManager sharedPushNotifications] server_username],
+				[[APNRSManager sharedPushNotifications] server_password]]]]
 			forHTTPHeaderField:@"Authorization"];
 	}
   
